@@ -7,14 +7,29 @@
 //
 
 import UIKit
+import AudioKit
+
+var oscillator = AKOscillator()
+
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        AudioKit.output = AKMixer(oscillator)
+        try! AudioKit.start()
     }
-
+    
+    @IBAction func toggleSound(_ sender: Any) {
+        if oscillator.isPlaying {
+            oscillator.stop()
+        } else {
+            oscillator.amplitude = random(0.5, 1)
+            oscillator.frequency = random(220, 880)
+            oscillator.start()
+        }
+    }
 
 }
 
